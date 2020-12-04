@@ -8,6 +8,9 @@ import android.os.Bundle
 
 import android.util.Log
 import android.widget.*
+import android.view.ContextMenu
+import android.view.MenuItem
+import android.view.View
 
 class AlbumDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,18 +24,18 @@ class AlbumDetailsActivity : AppCompatActivity() {
         if(albumItems.icons == R.drawable.tree_songs) {
             viewImage.setImageResource(albumItems.icons!!)
 
-            val songsQueueArray = mutableListOf("Beautiful in White", "The Prayer", "Im yours", "Beauty and the Beast")
-            val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, songsQueueArray)
-            val albumSongs = findViewById<ListView>(R.id.album_songs)
-            albumSongs.adapter = adapter
+            val queuedSongsArray = mutableListOf("Beautiful in White", "The Prayer", "Im yours", "Beauty and the Beast")
+            val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, queuedSongsArray)
+            val albumMusics = findViewById<ListView>(R.id.album_songs)
+            albumMusics.adapter = adapter
 
-            albumSongs.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+            albumMusics.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
                 val dialogAlert = AlertDialog.Builder(this)
                 dialogAlert.setMessage("Do you want to remove this song from list?")
                         .setCancelable(false)
                         .setPositiveButton("Yes", DialogInterface.OnClickListener() { dialog, which ->
-                            val removeSong = songsQueueArray[position]
-                            songsQueueArray.remove(removeSong)
+                            val removeMusic = queuedSongsArray[position]
+                            queuedSongsArray.remove(removeMusic)
                             adapter.notifyDataSetChanged()
 
                         })
@@ -50,18 +53,18 @@ class AlbumDetailsActivity : AppCompatActivity() {
             viewImage.setImageResource(albumItems.icons!!)
             viewText.text = "Someone Like You"
 
-            val songsQueueArray = mutableListOf("Someone Like You", "Always", "Country Road", "Original Sin")
-            val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, songsQueueArray)
-            val albumSongs = findViewById<ListView>(R.id.album_songs)
-            albumSongs.adapter = adapter
+            val queuedSongsArray = mutableListOf("Someone Like You", "Always", "Country Road", "Original Sin")
+            val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, queuedSongsArray)
+            val albumMusics = findViewById<ListView>(R.id.album_songs)
+            albumMusics.adapter = adapter
 
-            albumSongs.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+            albumMusics.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
                 val dialogAlert = AlertDialog.Builder(this)
                 dialogAlert.setMessage("Do you want to remove this song from list?")
                         .setCancelable(false)
                         .setPositiveButton("Yes", DialogInterface.OnClickListener() { dialog, which ->
-                            val removeSong = songsQueueArray[position]
-                            songsQueueArray.remove(removeSong)
+                            val removeSong = queuedSongsArray[position]
+                            queuedSongsArray.remove(removeSong)
                             adapter.notifyDataSetChanged()
 
                         })
@@ -78,8 +81,8 @@ class AlbumDetailsActivity : AppCompatActivity() {
             viewImage.setImageResource(albumItems.icons!!)
             viewText.text = "Remember When"
 
-            val songsQueueArray = mutableListOf("Remember When", "Heaven", "Lucky", "My Love")
-            val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, songsQueueArray)
+            val queuedSongsArray = mutableListOf("Remember When", "Heaven", "Lucky", "My Love")
+            val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, queuedSongsArray)
             val albumSongs = findViewById<ListView>(R.id.album_songs)
             albumSongs.adapter = adapter
 
@@ -88,8 +91,8 @@ class AlbumDetailsActivity : AppCompatActivity() {
                 dialogAlert.setMessage("Do you want to remove this song from list?")
                         .setCancelable(false)
                         .setPositiveButton("Yes", DialogInterface.OnClickListener() { dialog, which ->
-                            val removeSong = songsQueueArray[position]
-                            songsQueueArray.remove(removeSong)
+                            val removeMusic = queuedSongsArray[position]
+                            queuedSongsArray.remove(removeMusic)
                             adapter.notifyDataSetChanged()
 
                         })

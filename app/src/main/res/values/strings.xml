@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">UIElements_Pt_2</string>
+    <string name="app_name">2nd Part of UI elements</string>
+    <string name="queued_song">Queued Song</string>
 </resources>
