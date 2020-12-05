@@ -4,73 +4,82 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.GridView
-import android.widget.ImageView
-import android.widget.AdapterView
+import android.view.*
+import android.widget.*
+import com.example.uielements_pt_2.models.Album
 
 class AlbumsActivity : AppCompatActivity() {
 
 
-    private var arrayList = ArrayList<AlbumItem>()
-    var images = intArrayOf(R.drawable.tree_songs, R.drawable.country_songs, R.drawable.grace)
+    lateinit var albumItems: MutableList<Album>
+    lateinit var albumTableHandler: DatabaseHandler
+    lateinit var adapter: ArrayAdapter<Album>
+    lateinit var gridView: GridView
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_album)
 
-        for (i in images.indices) {
-            arrayList.add(AlbumItem(images[i]))
-        }
-
-        var albumAdapter = AlbumAdapter(arrayList, this)
-
-        var gridView = findViewById<GridView>(R.id.grid_view)
-        gridView.adapter = albumAdapter
+        gridView = findViewById<GridView>(R.id.grid_view)
+        albumTableHandler = DatabaseHandler(this)
+        albumItems = albumTableHandler.albumRead()
+        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, albumItems)
+        gridView.adapter = adapter
+        registerForContextMenu(gridView)
 
         gridView.setOnItemClickListener { parent, view, position, id ->
-            var intent = Intent(this, AlbumDetailsActivity::class.java)
-            intent.putExtra("data", arrayList[position])
+            val album_id = albumItems[position].id
+
+            val intent1 = Intent(applicationContext, AlbumDetailsActivity::class.java)
+            intent.putExtra("album_id", album_id)
+
             startActivity(intent)
         }
     }
 
-    class AlbumAdapter(
-        var albumItem: ArrayList<AlbumItem>,
-        var context: Context
+    override fun onCreateContextMenu(
+        menu: ContextMenu?,
+        v: View?,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        val inflater2 = menuInflater
+        inflater2.inflate(R.menu.album_edit_menu, menu)
+    }
 
-    ) : BaseAdapter() {
+    override fun onContextItemSelected(item: MenuItem): Boolean {
 
-        var layoutInflater =
-            context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val info1 = item.menuInfo as AdapterView.AdapterContextMenuInfo
+        val musicList = info1.position
 
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            var view = convertView
-            if (convertView == null) {
-                view = layoutInflater.inflate(R.layout.grid_item_list, parent, false)
+        return when (item.itemId) {
+            R.id.go_to_edit_album -> {
+                val album_id = albumItems[musicList].id
+
+                val intent = Intent(applicationContext, EditAlbum::class.java)
+                intent.putExtra("album_id", album_id)
+
+                startActivity(intent)
+                true
             }
-
-            var imageView = view?.findViewById<ImageView>(R.id.icons)
-
-            imageView?.setImageResource(albumItem[position].icons!!)
-
-            return view!!
+            else -> super.onContextItemSelected(item)
         }
+    }
 
-        override fun getItem(position: Int): Any {
-            return albumItem[position]
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater2 = menuInflater
+        inflater2.inflate(R.menu.album_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.go_to_add_album -> {
+                startActivity(Intent(this, AddAlbum::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
-
-        override fun getItemId(position: Int): Long {
-            return position.toLong()
-        }
-
-        override fun getCount(): Int {
-            return albumItem.size
-        }
-
     }
 }

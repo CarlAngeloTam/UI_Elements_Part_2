@@ -3,6 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/go_to_songs"
         android:title="Songs">
+        <menu>
+            <item android:id="@+id/go_to_add_songs"
+                android:title="Add a song">
+            </item>
+        </menu>
     </item>
     <item android:id="@+id/go_to_albums"
         android:title="Albums">

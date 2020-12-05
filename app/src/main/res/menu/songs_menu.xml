@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/add_to_queue"
+        android:title="Add to Queue">
+    </item>
+    <item android:id="@+id/go_to_edit_songs"
+        android:title="Edit the song">
+    </item>
+    <item android:id="@+id/go_to_delete_songs"
+        android:title="Remove the song">
+    </item>
+</menu>
